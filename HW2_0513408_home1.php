@@ -15,18 +15,19 @@
 <body>
 
 <div id="header_homepage">
-	百裡挑衣
+	<h1>百裡挑衣</h1>
 </div>
 
 <div id="menu">
 
 	<!-- 歡迎使用者-->
 	
-    <?php  if (isset($_SESSION['username'])) : ?>
+    <?php  if (isset($_SESSION['username'])) : //登入狀態?>
     	<p>Welcome <strong><?php echo $_SESSION['username']; ?></strong>, 
-    	<a href="HW2_0513408_home1.html?logout='1'" style="color: red;">logout</a></p>
+    	<a href="HW2_0513408_home1.php?logout='1'" style="color: red;">logout</a></p>
+		<a href="HW2_0513408_manage.php" >賣家廣場</a></p>
     <?php endif ?>
-	<?php  if (!isset($_SESSION['username'])) : ?>
+	<?php  if (!isset($_SESSION['username'])) : //尚未登入狀態?>
     	<a href="HW2_0513408_home.html" style="color: red;">Login</a></p>
     <?php endif ?>
 </div>
