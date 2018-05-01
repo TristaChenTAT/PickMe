@@ -13,6 +13,8 @@
 	
 	<br><br><br><br>
 		<?php
+		session_start();
+		
 				include ("HW2_0513408_connMySQL.php");
 				$name = $_POST['name'];
 				$pw = $_POST['pw'];
@@ -22,6 +24,7 @@
 								  if($result->num_rows > 0){
 								 while($row = $result->fetch_assoc()){
 									if($row["name"]==$name&&$row["pw"]==$pw){
+										$_SESSION['username'] = $name;
 										echo "登入成功！ 歡迎使用本系統";
 										echo '<meta http-equiv=REFRESH CONTENT=1;url=HW2_0513408_home1.php>';
 									}else{
