@@ -1,0 +1,72 @@
+body{ 
+  color: #ffffff; 
+  background-color:#f0f0f0; 
+  font-family:monospace; 
+  background:url('pic.jpg') #0f2439 center top; 
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* 滑鼠事件 */
+.pointer{ 
+cursor: pointer; 
+}
+
+/* 左欄按鈕 */
+.leftcolumn{ 
+  position:relative; 
+  top:40px; 
+  height:750px; 
+  width:250px; 
+  background-color:rgba(255, 255, 255, 0.5) ;
+  font-family:Hastoler;
+  
+}
+.bar-item{
+	padding:8px 20px;
+	float:left;
+	width:200px;
+	border:none;
+	display:block;
+	outline:0
+}
+.button{
+	white-space:nowrap;
+	color:#000000;
+	font-size:15pt;
+}
+.button:hover{
+	color:#ffffff!important;
+	background-color:rgba(61, 139, 173, 0.5)!important;
+	/* #3d8bad = rgba(61, 139, 173, 1) */
+}
+b{
+	padding-left:20px;
+	color:#3d8bad;
+	font-size:15pt;
+}
+
+/* 上欄按鈕 */
+.top {
+    overflow: hidden;
+    background-color: rgba(0, 0, 0,0.8);
+    position: fixed; 
+    top:0;
+	left:0;
+    width:100%;
+	z-index:1;
+}
+.top a {
+    float: right;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 10px 30px;
+    text-decoration: none;
+	font-family:Hastoler;
+	font-size:15pt;
+}
+.top a:hover {
+    background: #dddddd;
+    color: black;
+}
