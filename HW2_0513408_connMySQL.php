@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "0513403";
+$password = "test666";
 $dbname = "groupsix_db";
 
 // Create connection
