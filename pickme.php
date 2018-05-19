@@ -75,6 +75,10 @@
 			<a href="javascript:playPause();"><img src="r1.png" width="20" height="20" style="background-color:white" id="music_btn2" border="0"></a>
 		</div>
 		
+		<form action="search.php" method="post">
+			<input type="text" placeholder="想找甚麼衣服呢?" name="searchtxt">
+			<button type="submit">搜尋</button>
+		</form>
 	</div>
 	
 		<?php if (isset($_SESSION['success'])) :
