@@ -1,0 +1,15 @@
+/* who are we 內容 */
+
+.person{ 
+	font-family:SetoFont; 
+	color:black;
+	margin-top:10px;
+}
+
+.photo{
+	width:30%;
+	height:50%;
+	background-color:transparent; 
+    border=0;
+}
+	

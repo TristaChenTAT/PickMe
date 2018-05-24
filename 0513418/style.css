@@ -1,0 +1,57 @@
+body {
+	  background-image:height=800px width=600px;
+	  background-repeat:no-repeat;
+	  font-family:Lithos Pro Regular;
+}
+	  
+h1{
+	color:#ffffff;
+    font-family:Lithos Pro Regular;
+}
+
+h2{
+	position:fixed;
+	left:700px;
+	top:150px;
+}
+
+h3{
+	position:fixed;
+	left:700px;
+	top:400px;
+}
+
+h4{
+	position:fixed;
+	left:700px;
+	top:450px;
+}
+
+h7{
+	position:fixed;
+	left:700px;
+	top:480px;
+}	
+	
+p{
+	
+	color:#000000;
+    font-family:Lithos Pro Regular;
+}
+	
+button{
+	border:0px;
+	position:fixed;
+	right:10px;
+	bottom:5px;
+	height:50px;
+	width:200px;
+	background-color:rgba(61, 139, 173, 0.5) ;
+	font-size:20pt;
+	font-family:Lithos Pro Regular;
+	color:#ffffff;
+	
+}
+
+
+	
