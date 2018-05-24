@@ -148,7 +148,8 @@
 		<td style="font-family:SetoFont"><?php echo $row[0]?></td>
 		<td style="font-family:SetoFont"><?php echo $row[2]?></td>
 		<td style="font-family:SetoFont">	
-			<img width="120" height="120" src="image.php?cnum=<?php echo $row["cnum"]; ?>" /><br/>			
+			<input type="image" width="120" height="120" src="image.php?cnum=<?php echo $row["cnum"]; ?>" onClick="onClick(this)">
+			<br/> /><br/>			
 		</td>
 		</tr>
 		<?php
@@ -157,7 +158,32 @@
 
 		</table>
 	</div>
-	
+	<div class="container">
+	  <h2>Modal Example</h2>
+		<div class="modal fade" id="myModal" role="dialog">
+			<div class="modal-dialog">
+					
+			 <!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Picture</h4>
+					</div>
+				<div class="modal-body">
+					<img id="img01" width="400" height="400">
+			</div>		  
+		</div>
+	</div>
+
+	<!--call modal的function-->
+	<script>
+	function onClick(element)
+     {
+		 document.getElementById("img01").src = element.src;
+		 document.getElementById("myModal").style.display = "block";
+         $("#myModal").modal();
+     }
+	</script>	
 	
 </body>
 
