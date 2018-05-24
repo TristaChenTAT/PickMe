@@ -15,7 +15,10 @@
 
 <link rel="stylesheet" href="pickmestyle.css" type="text/css">  
 <link rel="Shortcut Icon" type="image/x-icon" href="pickmeicon.ico" />
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
 <!-- 音樂 -->
 <script type="text/javascript">
 	//function playPause() {
@@ -147,17 +150,24 @@
 		<tr>
 		<td style="font-family:SetoFont"><?php echo $row[0]?></td>
 		<td style="font-family:SetoFont"><?php echo $row[2]?></td>
-		<td style="font-family:SetoFont">	
+		<td style="font-family:SetoFont">
+			<!--展示圖片的程式碼
+			<img width="120" height="120" src="image.php?cnum=php的開頭 echo $row["cnum"]; ?>" /><br/>
+			-->
+			<!--圖片可以跳出介紹頁面的call function-->			
 			<input type="image" width="120" height="120" src="image.php?cnum=<?php echo $row["cnum"]; ?>" onClick="onClick(this)">
-			<br/> /><br/>			
+			<br/>
 		</td>
 		</tr>
+		
 		<?php
 			}
 		?>
 
 		</table>
 	</div>
+	
+	<!-- modal的內容-->
 	<div class="container">
 	  <h2>Modal Example</h2>
 		<div class="modal fade" id="myModal" role="dialog">
