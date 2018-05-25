@@ -12,6 +12,16 @@
 			<!--建立<form>，要求使用者必須填寫ID、帳號、密碼、性別-->
 			<form action="" method="post" enctype="multipart/form-data"><!--將資訊傳給自己-->
 			<font color="#025648"><b>衣服名稱:</b></font>  <input type="text" name="clothesname"required><br><br>
+			<font color="#025648"><b>尺寸大小:</b></font>  <input type="text" name="csize"required><br><br>
+			<font color="#025648"><b>定價:</b></font>  <input type="number" name="cprice"required><br><br>
+			<font color="#025648"><b>分類:</b></font>
+			<select id="category">
+				<option selected value="top">上衣</option>
+				<option value="bottom">褲子</option>
+				<option value="skirt">裙子</option>
+				<option value="jacket">外套</option>
+			</select>
+			<br><br>
 			<font color="#025648"><b>庫存數量: </b></font> <input type="number" name="inventory"required><br><br>
 			<br>
 			<div class="input">
@@ -32,6 +42,9 @@
 		$dbname = "groupsix_db";//選擇欲讀取的資料庫名稱
 		$clothesname = $_POST['clothesname'];
 		$inventory = $_POST['inventory'];
+		$csize = $_POST['csize'];
+		$cprice = $_POST['cprice'];
+		$category = isset($_POST['#category']) ? $_POST['#category'] : "top";
 		
 		$filename=$_FILES['image']['name'];
 		$tmpname=$_FILES['image']['tmp_name'];
@@ -48,8 +61,8 @@
 		$conn = new mysqli($servername, $username, $password, $dbname);//create connection
 		mysqli_query($conn, "SET NAMES 'UTF8'");
 		$imagedata = sprintf("(%s)","'".$file."'");
-		$sql="INSERT into clothes(cname,cinventory,image)VALUES('$clothesname',$inventory,$imagedata)";
-		 //利用SQL將會員資料INSERT至資料庫
+		
+		$sql = "INSERT INTO `clothes`(`cname`, `cinventory`, `image`, `cprice`, `csize`, `category`) VALUES ('$clothesname',$inventory, $imagedata ,$cprice,'$csize','$category')";
 		$conn->query($sql);
 		}
 		
