@@ -15,6 +15,11 @@
 
 <link rel="stylesheet" href="pickmestyle.css" type="text/css">  
 <link rel="Shortcut Icon" type="image/x-icon" href="pickmeicon.ico" />
+<link rel="stylesheet" href="stylew3.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 
 <!-- 音樂 -->
 <script type="text/javascript">
@@ -32,6 +37,13 @@
 	}
 </script>
 
+<style>
+body.modal-open {
+    position: fixed;
+	width:100%;
+	
+}
+</style>
 </head>
 
 <body>
@@ -122,26 +134,89 @@
 		$data=mysqli_query($conn,$select);//從member中選取全部(*)的資料
 		$sql=sprintf("select * from clothes ORDER BY cnum");
 		$result=$conn->query($sql);
+		$count=0;
 	?>
 
 		<?php
 			while($row = mysqli_fetch_array($result)) {
 			?>
-		<tr>
-		<td style="font-family:SetoFont"><?php echo $row[0]?></td>
-		<td style="font-family:SetoFont"><?php echo $row[2]?></td>
+		<div>
+		<?php if($count == 4){
+			?>
+			<tr></tr>
+			<?php $count=0;
+		}
+		?>
 		<td style="font-family:SetoFont">	
-			<img width="120" height="120" src="image.php?cnum=<?php echo $row["cnum"]; ?>" /><br/>			
+			<input type="image" width="200" height="200" src="image.php?cnum=<?php echo $row["cnum"]; ?>"
+			title="<?php echo $row[0]?>" onClick="onClick(this,'<?php echo $row[2]?>','<?php echo $row[5]?>','<?php echo $row[4]?>')">			
+		<p style="font-family:SetoFont; font-size:15pt;"><?php echo $row[0]?></p>
+		<p style="font-family:SetoFont; font-size:15pt;">$<?php echo $row[4]?></td>
+
 		</td>
-		<td style="font-family:SetoFont"><?php echo $row[4]?></td>
-		</tr>
+		</div>
 		<?php
+			$count=$count+1;	
 			}
 		?>
-
+		</tr>	
 		</table>
 	</div>
+	<!-- modal的內容-->
+	<div id="intro" class="modal fade" tabindex="-1" role="dialog">
+		<div class="w3-modal-content w3-animate-zoom">
+			<div class="w3-container w3-black">
+				<h2><button type="button" class="close" data-dismiss="modal" style="color: white;">x</button></h2>						
+				<h1><div id="test" style="font-family:SetoFont"></div></h1>
+			</div>
+
+			<div class="w3-container">
+				<img id="img01" width="300" height="300">
+			</div>
+			<div class="w3-container w3-black">
+				<h1><div style="font-family:SetoFont">商品庫存</div></h1>
+			</div>
+			<div class="w3-container">
+				<h2><div id="inven" style="font-family:SetoFont"></div></h2>
+			</div>
+			<div class="w3-container w3-black">
+				<h1><div style="font-family:SetoFont">商品資訊</div></h1>
+			</div>
+			<div class="w3-container">
+				<h2><div id="money" style="font-family:SetoFont"></div></h2>
+				<HR color="#000000" size="50px" width="100%">
+				<h2><div id="si" style="font-family:SetoFont"></div></h2>
+				<div class="modal-footer">
+					<button type="button" style="font-family:SetoFont;font-size:25px;width:150px;height:40px;right:0;top:-10%;" onClick="alert('成功加入商品' )">加入購物車</button>
+				</div>
+			</div>
+			
+			
+		</div>
+	</div>
 	
+	<!--提示內容-->
+
+	<!--購物車添加成功提示-->
+	<!--call modal的function-->
+	<script>
+	
+
+	function onClick(element,inventory,size,mon)
+     {
+		 
+		 document.getElementById("img01").src = element.src;
+		 document.getElementById("test").innerHTML = "商品名稱: " + element.title;
+		 document.getElementById("inven").innerHTML = inventory;
+		 document.getElementById("si").innerHTML = "尺寸" + size;
+		 document.getElementById("money").innerHTML ="NT$" + mon;
+		 document.getElementById("intro").style.display = "block";
+         $("#intro").modal();
+		 
+         
+     }
+	</script>	
+
 	
 </body>
 
