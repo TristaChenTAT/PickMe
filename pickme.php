@@ -14,6 +14,7 @@
 <head>
 <title>PickMe | 百裡挑衣</title>
 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" href="pickmestyle.css" type="text/css">  
 <link rel="Shortcut Icon" type="image/x-icon" href="pickmeicon.ico" />
 <link rel="stylesheet" href="stylew3.css">
@@ -69,7 +70,7 @@ body.modal-open {
 			
 		<!-- 音樂 -->
 		<div class="mucon">
-			<audio id="music2" src="pickme.mp3" autoplay="autoplay" loop="loop"></audio>
+			<audio id="music2" src="pickme.mp3" loop="loop"></audio>
 			<a href="javascript:playPause();"><img src="r1.png" width="20" height="20" style="background-color:white" id="music_btn2" border="0"></a>
 		</div>
 		
@@ -146,7 +147,7 @@ body.modal-open {
 		?>
 		<td style="font-family:SetoFont">	
 			<input type="image" width="200" height="200" src="image.php?cnum=<?php echo $row["cnum"]; ?>"
-			title="<?php echo $row[0]?>" onClick="onClick(this,'<?php echo $row[2]?>','<?php echo $row[5]?>','<?php echo $row[4]?>')">			
+			title="<?php echo $row[0]?>" onClick="onClick(this,'<?php echo $row[2]?>','<?php echo $row[5]?>','<?php echo $row[4]?>','<?php echo $row["cnum"]; ?>')">				
 		<p style="font-family:SetoFont; font-size:15pt;"><?php echo $row[0]?></p>
 		<p style="font-family:SetoFont; font-size:15pt;">$<?php echo $row[4]?></td>
 
@@ -184,7 +185,26 @@ body.modal-open {
 				<HR color="#000000" size="50px" width="100%">
 				<h2><div id="si" style="font-family:SetoFont"></div></h2>
 				<div class="modal-footer">
-					<button type="button" style="font-family:SetoFont;font-size:25px;width:150px;height:40px;right:0;top:-10%;" onClick="alert('成功加入商品' )">加入購物車</button>
+					<div id="div_test" style="font-family:SetoFont;display:none;color:white;position:absolute;z-index:100;left:50%;top:43%;margin-left:-75px;text-align:center;width:250px;height:50px;background-color:#b3e6cc;font-size:40px;">
+						成功加入商品
+					</div>
+					<form id="form1" action="" method="post" enctype="multipart/form-data" target="exec_target"><!--將資訊傳給自己-->
+					<select name="shopbox">
+						<option selected value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+					</select>
+					<input type="button" onclick="operate()" style="font-family:SetoFont;font-size:25px;width:150px;height:40px;right:0;top:-10%;" value="加入購物車">
+					<!-- 這個的功能是傳遞一些參數，同時不需要再界面顯示控件-->
+					<input type="hidden" name="shopnum" id="shopnum">
+					</form>
 				</div>
 			</div>
 			
@@ -192,25 +212,56 @@ body.modal-open {
 		</div>
 	</div>
 	
-	<!--提示內容-->
+	!-- 超重要!!!!  因為可以submit時 頁面不會出現重整的畫面-->
+	<iframe hidden id="exec_target" name="exec_target"></iframe>
+	<?php
+	if(isset($_POST["shopnum"])){
+		//在有商品號碼的況下  取member id -> $row[0] shopnum就是商品號碼
+		$name = $_SESSION['username'];
+		$sqlq = "SELECT id FROM member WHERE name='$name'";
+		$resultq = $conn->query($sqlq);
+		$row = mysqli_fetch_array($resultq);
 
-	<!--購物車添加成功提示-->
-	<!--call modal的function-->
+		$shopnum = $_POST["shopnum"];
+		
+		$shopbox = (int)$_POST['shopbox'];
+		
+		//傳到資料庫上
+		$sql = "INSERT INTO `member_order`(`member_id`, `product_ssn`, `quantity`) VALUES ($row[0],$shopnum,$shopbox)";
+		$conn->query($sql);
+
+	}
+
+	?>
 	<script>
+	var IMG;
+	<!--叫出提示已加入購物車的資訊-->
+	function operate()
+	{
+		<!--最麻煩的地方  因為php 和 java之間不能互相傳值 所以要用下面的方法來寫-->
+		<!--先幫shopnum寫好值 利用偷偷傳送的形式傳出去-->
+		document.getElementById('shopnum').value = IMG;
+		document.getElementById("form1").submit();
 	
-
-	function onClick(element,inventory,size,mon)
+		
+		document.getElementById('div_test').style.display="block";
+		setTimeout("disappeare()",2000);
+	}
+	function disappeare(){
+		document.getElementById('div_test').style.display="none";
+	}
+		
+	<!--call modal的function-->
+	function onClick(element,inventory,size,mon,cnum)
      {
-		 
 		 document.getElementById("img01").src = element.src;
 		 document.getElementById("test").innerHTML = "商品名稱: " + element.title;
 		 document.getElementById("inven").innerHTML = inventory;
 		 document.getElementById("si").innerHTML = "尺寸" + size;
 		 document.getElementById("money").innerHTML ="NT$" + mon;
+		 IMG = cnum;
 		 document.getElementById("intro").style.display = "block";
-         $("#intro").modal();
-		 
-         
+         $("#intro").modal();   
      }
 	</script>	
 
