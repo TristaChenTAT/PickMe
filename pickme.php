@@ -75,8 +75,8 @@ body.modal-open {
 		
 		<!-- 搜尋 -->
 		<form action="search.php" method="post">
-			<button type="submit">搜尋</button>
-			<input type="text" placeholder="想找甚麼衣服呢?" name="searchtxt">
+			<button type="submit" style="float:right; font-family:SetoFont; font-size:12pt; margin-top:10px;">搜尋</button>
+			<input type="text" placeholder="想找甚麼衣服呢?" name="searchtxt" style="float:right; font-family:SetoFont; font-size:12pt; margin:12px 5px;" >
 		</form>
 		
 	</div>
