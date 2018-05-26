@@ -25,8 +25,15 @@
 								  if($result->num_rows > 0){
 								 while($row = $result->fetch_assoc()){
 									if($row["name"]==$name&&$row["pw"]==$pw){
+										$sql2=sprintf("SELECT isowner FROM member WHERE name='$name'");
+										$result2=mysqli_query($conn,$sql2);
+										if ($result2->num_rows > 0) {
+											$row=mysqli_fetch_array($result2,MYSQLI_ASSOC);
+											$_SESSION['isowner'] = ($row["isowner"]);
+										} 
 										$_SESSION['username'] = $name;
 										echo "登入成功！ 歡迎使用本系統";
+
 										echo '<meta http-equiv=REFRESH CONTENT=1;url=pickme.php>';
 									}else{
 										echo "登入失敗！";
