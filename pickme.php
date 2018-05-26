@@ -109,6 +109,7 @@
 		<td style="font-family:SetoFont">商品名稱</td>
 		<td style="font-family:SetoFont">商品庫存</td>
 		<td style="font-family:SetoFont">商品展示</td>
+		<td style="font-family:SetoFont">售價</td>
 		</tr>
 	<?php
 		$servername = "localhost";//連接伺服器
@@ -132,6 +133,7 @@
 		<td style="font-family:SetoFont">	
 			<img width="120" height="120" src="image.php?cnum=<?php echo $row["cnum"]; ?>" /><br/>			
 		</td>
+		<td style="font-family:SetoFont"><?php echo $row[4]?></td>
 		</tr>
 		<?php
 			}
