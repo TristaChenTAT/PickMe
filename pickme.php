@@ -116,13 +116,7 @@ body.modal-open {
 	
 	<!-- 內容 -->
 	<div id="itemcondition" class="content">
-		<table border="1" style="width:60%; margin:auto auto; text-align:center;">
-		<tr>
-		<td style="font-family:SetoFont">商品名稱</td>
-		<td style="font-family:SetoFont">商品庫存</td>
-		<td style="font-family:SetoFont">商品展示</td>
-		<td style="font-family:SetoFont">售價</td>
-		</tr>
+		<table border="0" style="width:95%; margin:auto auto; text-align:center;background-color:rgba(255, 255, 255, 0.5);">
 	<?php
 		$servername = "localhost";//連接伺服器
 		$username = "root";
