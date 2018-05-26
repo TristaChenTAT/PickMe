@@ -3,6 +3,7 @@
   if (isset($_GET['logout'])) {
   	session_destroy();
   	unset($_SESSION['username']);
+	unset($_SESSION['isowner']);
   }
 ?>
 	
@@ -54,6 +55,8 @@ body.modal-open {
 		<?php  if (isset($_SESSION['username'])) : //登入狀態?>
     	<!-- <p>Welcome <strong><?php echo $_SESSION['username']; ?></strong>, -->
     	<a class="pointer" href="pickme.php?logout='1'" >logout</a>
+		<?php endif ?>
+		<?php  if (isset($_SESSION['isowner'])&&($_SESSION['isowner']==1)) ://賣家登入狀態?>
 		<a class="pointer" href="manage.php" style="font-family:SetoFont">賣家廣場</a>
 		<?php endif ?>
 		
