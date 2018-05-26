@@ -165,7 +165,7 @@ body.modal-open {
 			</div>
 
 			<div class="w3-container">
-				<img id="img01" width="300" height="300">
+				<img id="img01" width="350" height="350">
 			</div>
 			<div class="w3-container w3-black">
 				<h1><div style="font-family:SetoFont">商品庫存</div></h1>
