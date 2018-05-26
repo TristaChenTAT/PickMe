@@ -22,8 +22,9 @@
 		<form action="" method="post"><!--將資訊傳給自己-->
 		<font color="#025648"><b>帳號:</b></font>  <input type="text" name="name"required><br><br>
 		<font color="#025648"><b>密碼: </b></font> <input type="text" name="pw"required><br><br>
-		<font color="#025648"><b>信箱: </b></font> <input type="text" name="email"required><br>
-		<br>
+		<font color="#025648"><b>信箱: </b></font> <input type="text" name="email"required><br><br>
+		<input type="radio" name="isowner" value="1" checked> <font color="#025648"><b>賣家</b></font>
+		<input type="radio" name="isowner" value="0"> <font color="#025648"><b>買家</b></font><br>><br>
 		<input type="submit"style="width:60px;height:25px;border:3px #e595b3 double;" onClick="window.open('login.html')">
 		</form>
 
@@ -41,9 +42,10 @@
 		 $name = $_POST['name'];
 		 $pw = $_POST['pw'];
 		 $email = $_POST['email'];
+		 $isowner = $_POST['isowner'];
 
 		 $conn = new mysqli($servername, $username, $password, $dbname);//create connection
-		 $sql=" INSERT into member(name,pw,email)VALUES('$name','$pw','$email')";
+		 $sql=" INSERT into member(name,pw,email,isowner)VALUES('$name','$pw','$email','$isowner')";
 		 //利用SQL將會員資料INSERT至資料庫
 		$conn->query($sql);
 
