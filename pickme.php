@@ -212,7 +212,7 @@ body.modal-open {
 		</div>
 	</div>
 	
-	!-- 超重要!!!!  因為可以submit時 頁面不會出現重整的畫面-->
+	<!-- 超重要!!!!  因為可以submit時 頁面不會出現重整的畫面-->
 	<iframe hidden id="exec_target" name="exec_target"></iframe>
 	<?php
 	if(isset($_POST["shopnum"])){
