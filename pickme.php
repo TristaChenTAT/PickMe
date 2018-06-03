@@ -51,7 +51,7 @@ body.modal-open {
 <body>
 
 	<!-- 上欄 -->
-	<div class="top">
+	<div class="top" style="cursor:url('poro.cur'),auto;">
 		
 		<?php  if (isset($_SESSION['username'])) : //登入狀態?>
     	<!-- <p>Welcome <strong><?php echo $_SESSION['username']; ?></strong>, -->
@@ -89,7 +89,7 @@ body.modal-open {
 	
 	
 	<!-- 左欄 -->
-	<div id="mainmenu" class="leftcolumn">
+	<div id="mainmenu" class="leftcolumn" style="cursor:url('poro.cur'),auto;">
 			
 			<!-- 商標 -->
 			<br>
@@ -119,7 +119,7 @@ body.modal-open {
 	
 	
 	<!-- 內容 -->
-	<div id="itemcondition" class="content">
+	<div id="itemcondition" class="content" style="cursor:url('poro.cur'),auto;">
 		<table border="0" style="width:95%; margin:auto auto; text-align:center;background-color:rgba(255, 255, 255, 0.5);">
 	<?php
 		$servername = "localhost";//連接伺服器
