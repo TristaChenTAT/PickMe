@@ -65,7 +65,7 @@ body.modal-open {
     	<a class="pointer" onClick="location.href='login.html';">Login</a>
 		<?php endif ?>
 		
-		<a href="#bag">Shopping Bag</a>
+		<a class="pointer" href="shopbag.php">Shopping Bag</a>
 		
 			
 		<!-- 音樂 -->
@@ -226,9 +226,20 @@ body.modal-open {
 		
 		$shopbox = (int)$_POST['shopbox'];
 		
+		//判斷資料庫是否有商品編號
+		$find = "SELECT product_ssn FROM member_order WHERE product_ssn='$shopnum'";
+		$go = $conn->query($find);
+		
 		//傳到資料庫上
-		$sql = "INSERT INTO `member_order`(`member_id`, `product_ssn`, `quantity`) VALUES ($row[0],$shopnum,$shopbox)";
-		$conn->query($sql);
+		if($go->num_rows > 0){
+			
+			$sql2 = "UPDATE member_order SET quantity = quantity + '$shopbox' WHERE member_id='$row[0]' and product_ssn='$shopnum' ";
+			$conn->query($sql2);
+		}
+		else{
+			$sql = "INSERT INTO `member_order`(`member_id`, `product_ssn`, `quantity`) VALUES ($row[0],$shopnum,$shopbox)";
+			$conn->query($sql);
+		}
 
 	}
 
