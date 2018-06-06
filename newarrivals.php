@@ -1,3 +1,12 @@
+<?php 
+  session_start(); 
+  if (isset($_GET['logout'])) {
+  	session_destroy();
+  	unset($_SESSION['username']);
+	unset($_SESSION['isowner']);
+  }
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -5,8 +14,13 @@
 <head>
 <title>NEW ARRIVALS | 百裡挑衣</title>
 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" href="pickmestyle.css" type="text/css">  
 <link rel="Shortcut Icon" type="image/x-icon" href="pickmeicon.ico" />
+<link rel="stylesheet" href="stylew3.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <!-- 音樂 -->
 <script type="text/javascript">
@@ -24,17 +38,27 @@
 	}
 </script>
 
+<style>
+body.modal-open {
+    position: fixed;
+	width:100%;
+	
+}
+</style>
+
 </head>
 
 
 <body>
 
 	<!-- 上欄 -->
-	<div class="top">
+	<div class="top" style="cursor:url('poro.cur'),auto;">
 		
 		<?php  if (isset($_SESSION['username'])) : //登入狀態?>
     	<!-- <p>Welcome <strong><?php echo $_SESSION['username']; ?></strong>, -->
     	<a class="pointer" href="pickme.php?logout='1'" >logout</a>
+		<?php endif ?>
+		<?php  if (isset($_SESSION['isowner'])&&($_SESSION['isowner']==1)) ://賣家登入狀態?>
 		<a class="pointer" href="manage.php" style="font-family:SetoFont">賣家廣場</a>
 		<?php endif ?>
 		
@@ -42,19 +66,19 @@
     	<a class="pointer" onClick="location.href='login.html';">Login</a>
 		<?php endif ?>
 		
-		<a href="#bag">Shopping Bag</a>
+		<a class="pointer" href="shopbag.php">Shopping Bag</a>
 		
 			
 		<!-- 音樂 -->
 		<div class="mucon">
-			<audio id="music2" src="pickme.mp3" autoplay="autoplay" loop="loop"></audio>
+			<audio id="music2" src="pickme.mp3" loop="loop"></audio>
 			<a href="javascript:playPause();"><img src="r1.png" width="20" height="20" style="background-color:white" id="music_btn2" border="0"></a>
 		</div>
 		
 		<!-- 搜尋 -->
 		<form action="search.php" method="post">
-			<button type="submit">搜尋</button>
-			<input type="text" placeholder="想找甚麼衣服呢?" name="searchtxt">
+			<button type="submit" style="float:right; font-family:SetoFont; font-size:12pt; margin-top:10px;">搜尋</button>
+			<input type="text" placeholder="想找甚麼衣服呢?" name="searchtxt" style="float:right; font-family:SetoFont; font-size:12pt; margin:12px 5px;" >
 		</form>
 		
 	</div>
@@ -102,8 +126,8 @@
 		<br></br>
 		<!--標題-->
 		<div style="text-align:center; font-family:Hastoler;"><font size="7"><strong> ~ ~ ~ NEW ARRIVALS ~ ~ ~ </strong></div>
-		<br></br>
 		
+		<table border="0" style="width:95%; margin:auto auto; text-align:center;background-color:rgba(255, 255, 255, 0.5);">
 	<?php
 		$servername = "localhost";//連接伺服器
 		$username = "root";
@@ -113,30 +137,150 @@
 		mysqli_query($conn, "SET NAMES 'UTF8'");
 		$select="select * from clothes ";
 		$data=mysqli_query($conn,$select);
-		$sql=sprintf("select * from clothes ORDER BY cnum DESC LIMIT 4");//從clothes資料表中依照cnum的順序從後面抓取最新的4筆資料
+		$sql=sprintf("select * from clothes ORDER BY cnum DESC LIMIT 10");//從clothes資料表中依照cnum的順序從後面抓取最新的10筆資料
 		$result=$conn->query($sql);
+		$count=0;
 	?>
-		<table border="0" style="width:95%; margin:auto auto; text-align:center; background-color:rgba(255, 255, 255, 0.5)">
-			
-		<tr>
 		<?php
 			while($row = mysqli_fetch_array($result)) {
 			?>
-			<div>
-			<td style="font-family:SetoFont">	
-				<img width=100% src="image.php?cnum=<?php echo $row["cnum"]; ?>"/><br/>	
-				<p style="font-family:SetoFont; font-size:15pt;"><?php echo $row[0]?></p>
-				<p style="font-family:SetoFont; font-size:15pt;">$<?php echo $row[4]?></p>
-			</td>
-			</div>
+		<div>
+		<?php if($count == 4){
+			?>
+			<tr></tr>
+			<?php $count=0;
+		}
+		?>
+		<td style="font-family:SetoFont">	
+			<input type="image" width="200" height="200" src="image.php?cnum=<?php echo $row["cnum"]; ?>"
+			title="<?php echo $row[0]?>" onClick="onClick(this,'<?php echo $row[2]?>','<?php echo $row[5]?>','<?php echo $row[4]?>','<?php echo $row["cnum"]; ?>')">				
+		<p style="font-family:SetoFont; font-size:15pt;"><?php echo $row[0]?></p>
+		<p style="font-family:SetoFont; font-size:15pt;">$<?php echo $row[4]?></td>
+
+		</td>
+		</div>
 		<?php
+			$count=$count+1;	
 			}
 		?>
-		</tr>
-
+		</tr>	
 		</table>
 	</div>
+	<!-- modal的內容-->
+	<div id="intro" class="modal fade" tabindex="-1" role="dialog">
+		<div class="w3-modal-content w3-animate-zoom">
+			<div class="w3-container w3-black">
+				<h2><button type="button" class="close" data-dismiss="modal" style="color: white;">x</button></h2>						
+				<h1><div id="test" style="font-family:SetoFont"></div></h1>
+			</div>
+
+			<div class="w3-container">
+				<img id="img01" width="350" height="350">
+			</div>
+			<div class="w3-container w3-black">
+				<h1><div style="font-family:SetoFont">商品庫存</div></h1>
+			</div>
+			<div class="w3-container">
+				<h2><div id="inven" style="font-family:SetoFont"></div></h2>
+			</div>
+			<div class="w3-container w3-black">
+				<h1><div style="font-family:SetoFont">商品資訊</div></h1>
+			</div>
+			<div class="w3-container">
+				<h2><div id="money" style="font-family:SetoFont"></div></h2>
+				<HR color="#000000" size="50px" width="100%">
+				<h2><div id="si" style="font-family:SetoFont"></div></h2>
+				<div class="modal-footer">
+					<div id="div_test" style="font-family:SetoFont;display:none;color:white;position:absolute;z-index:100;left:50%;top:43%;margin-left:-75px;text-align:center;width:250px;height:50px;background-color:#b3e6cc;font-size:40px;">
+						成功加入商品
+					</div>
+					<form id="form1" action="" method="post" enctype="multipart/form-data" target="exec_target"><!--將資訊傳給自己-->
+					<select name="shopbox">
+						<option selected value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+					</select>
+					<input type="button" onclick="operate()" style="font-family:SetoFont;font-size:25px;width:150px;height:40px;right:0;top:-10%;" value="加入購物車">
+					<!-- 這個的功能是傳遞一些參數，同時不需要再界面顯示控件-->
+					<input type="hidden" name="shopnum" id="shopnum">
+					</form>
+				</div>
+			</div>
+			
+			
+		</div>
+	</div>
 	
+	<!-- 超重要!!!!  因為可以submit時 頁面不會出現重整的畫面-->
+	<iframe hidden id="exec_target" name="exec_target"></iframe>
+	<?php
+	if(isset($_POST["shopnum"])){
+		//在有商品號碼的況下  取member id -> $row[0] shopnum就是商品號碼
+		$name = $_SESSION['username'];
+		$sqlq = "SELECT id FROM member WHERE name='$name'";
+		$resultq = $conn->query($sqlq);
+		$row = mysqli_fetch_array($resultq);
+
+		$shopnum = $_POST["shopnum"];
+		
+		$shopbox = (int)$_POST['shopbox'];
+		
+		//判斷資料庫是否有商品編號
+		$find = "SELECT product_ssn FROM member_order WHERE product_ssn='$shopnum'";
+		$go = $conn->query($find);
+		
+		//傳到資料庫上
+		if($go->num_rows > 0){
+			
+			$sql2 = "UPDATE member_order SET quantity = quantity + '$shopbox' WHERE member_id='$row[0]' and product_ssn='$shopnum' ";
+			$conn->query($sql2);
+		}
+		else{
+			$sql = "INSERT INTO `member_order`(`member_id`, `product_ssn`, `quantity`) VALUES ($row[0],$shopnum,$shopbox)";
+			$conn->query($sql);
+		}
+
+	}
+
+	?>
+	<script>
+	var IMG;
+	<!--叫出提示已加入購物車的資訊-->
+	function operate()
+	{
+		<!--最麻煩的地方  因為php 和 java之間不能互相傳值 所以要用下面的方法來寫-->
+		<!--先幫shopnum寫好值 利用偷偷傳送的形式傳出去-->
+		document.getElementById('shopnum').value = IMG;
+		document.getElementById("form1").submit();
+	
+		
+		document.getElementById('div_test').style.display="block";
+		setTimeout("disappeare()",500);
+	}
+	function disappeare(){
+		document.getElementById('div_test').style.display="none";
+	}
+		
+	<!--call modal的function-->
+	function onClick(element,inventory,size,mon,cnum)
+     {
+		 document.getElementById("img01").src = element.src;
+		 document.getElementById("test").innerHTML = "商品名稱: " + element.title;
+		 document.getElementById("inven").innerHTML = inventory;
+		 document.getElementById("si").innerHTML = "尺寸" + size;
+		 document.getElementById("money").innerHTML ="NT$" + mon;
+		 IMG = cnum;
+		 document.getElementById("intro").style.display = "block";
+         $("#intro").modal();   
+     }
+	</script>	
 	
 </body>
 
