@@ -85,7 +85,7 @@ body.modal-open {
 		<?php if (isset($_SESSION['success'])) :
 			unset($_SESSION['success']);
         	endif ?>
-	
+
 	
 	
 	<!-- 左欄 -->
@@ -113,6 +113,7 @@ body.modal-open {
 			<b>About PickMe</b>
 			<a class="bar-item button pointer" onClick="location.href='whoarewe.php';">Who are we</a>
 			<a class="bar-item button pointer" onClick="location.href='#';">Contact</a>
+			<a class="bar-item button pointer" onClick="location.href='message.php';">Message</a>
 			</div>
 			
 	</div>
@@ -134,7 +135,6 @@ body.modal-open {
 		$result=$conn->query($sql);
 		$count=0;
 	?>
-
 		<?php
 			while($row = mysqli_fetch_array($result)) {
 			?>
@@ -147,10 +147,9 @@ body.modal-open {
 		?>
 		<td style="font-family:SetoFont">	
 			<input type="image" width="200" height="200" src="image.php?cnum=<?php echo $row["cnum"]; ?>"
-			title="<?php echo $row[0]?>" onClick="onClick(this,'<?php echo $row[2]?>','<?php echo $row[5]?>','<?php echo $row[4]?>','<?php echo $row["cnum"]; ?>')">				
+			title="<?php echo $row[0]?>" onClick="onClick(this,'<?php echo $row[2]?>','<?php echo $row[5]?>','<?php echo $row[4]?>','<?php echo $row["cnum"]; ?>')">		
 		<p style="font-family:SetoFont; font-size:15pt;"><?php echo $row[0]?></p>
 		<p style="font-family:SetoFont; font-size:15pt;">$<?php echo $row[4]?></td>
-
 		</td>
 		</div>
 		<?php
@@ -207,13 +206,48 @@ body.modal-open {
 					</form>
 				</div>
 			</div>
+			<div class="w3-container w3-black">
+				<h1><div style="font-family:SetoFont">留言板</div></h1>
+			</div>
+			<div class="w3-container">
+				<div id="div_test2" style="font-family:SetoFont;display:none;color:white;position:absolute;z-index:100;left:50%;top:65%;margin-left:-75px;text-align:center;width:250px;height:50px;background-color:#b3e6cc;font-size:40px;">
+					成功提交
+				</div>
+				<form id="form2" action="" method="post" enctype="multipart/form-data" target="exec_target"><!--將資訊傳給自己-->
+				<font color="#025648"><b>留言內容: </b></font> <input type="text" style="height:80px;width:830px;" name="message"required><br><br>
+				<input type="button" onclick="mess()" style="width:60px;height:25px;border:3px #e595b3 double;" value="提交">
+				<input type="hidden" name="shopnum2" id="shopnum2">
+				</form>
+			</div>
 			
 			
 		</div>
 	</div>
-	
+
 	<!-- 超重要!!!!  因為可以submit時 頁面不會出現重整的畫面-->
 	<iframe hidden id="exec_target" name="exec_target"></iframe>
+	<?php 
+		
+	
+	?>
+	<?php
+		if(isset($_POST["shopnum2"])){
+		$name = $_SESSION['username'];
+		$sqlq = "SELECT id FROM member WHERE name='$name'";
+		$resultq = $conn->query($sqlq);
+		$row2 = mysqli_fetch_array($resultq);
+		
+		$message = $_POST['message'];
+		$shopnum2 = $_POST["shopnum2"];
+		
+		$conn = new mysqli($servername, $username, $password, $dbname);//create connection
+		mysqli_query($conn, "SET NAMES 'UTF8'");
+		$sql="INSERT into message(mem_id,mmessage,mclothes_id)VALUES('$row2[0]','$message','$shopnum2')";
+		 //利用SQL將會員資料INSERT至資料庫
+		$conn->query($sql);
+		}
+		
+		?>
 	<?php
 	if(isset($_POST["shopnum"])){
 		//在有商品號碼的況下  取member id -> $row[0] shopnum就是商品號碼
@@ -258,8 +292,19 @@ body.modal-open {
 		document.getElementById('div_test').style.display="block";
 		setTimeout("disappeare()",500);
 	}
+	function mess()
+	{
+		<!--最麻煩的地方  因為php 和 java之間不能互相傳值 所以要用下面的方法來寫-->
+		<!--先幫shopnum寫好值 利用偷偷傳送的形式傳出去-->
+		document.getElementById('shopnum2').value = IMG;
+		document.getElementById("form2").submit();
+		
+		document.getElementById('div_test2').style.display="block";
+		setTimeout("disappeare()",500);
+	}
 	function disappeare(){
 		document.getElementById('div_test').style.display="none";
+		document.getElementById('div_test2').style.display="none";
 	}
 		
 	<!--call modal的function-->
@@ -270,9 +315,9 @@ body.modal-open {
 		 document.getElementById("inven").innerHTML = inventory;
 		 document.getElementById("si").innerHTML = "尺寸" + size;
 		 document.getElementById("money").innerHTML ="NT$" + mon;
-		 IMG = cnum;
+		IMG = cnum;
 		 document.getElementById("intro").style.display = "block";
-         $("#intro").modal();   
+         $("#intro").modal();
      }
 	</script>	
 
