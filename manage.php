@@ -1,3 +1,12 @@
+<?php 
+  session_start(); 
+  if (isset($_GET['logout'])) {
+  	session_destroy();
+  	unset($_SESSION['username']);
+	unset($_SESSION['isowner']);
+  }
+?>
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +16,68 @@
 </head>
 
 <body>
-		<div class="table">
+	
+	<!-- 上欄 -->
+	<div class="top" style="cursor:url('poro.cur'),auto;">
+		
+		<?php  if (isset($_SESSION['username'])) : //登入狀態?>
+    	<!-- <p>Welcome <strong><?php echo $_SESSION['username']; ?></strong>, -->
+    	<a class="pointer" href="pickme.php?logout='1'" >logout</a>
+		<?php endif ?>
+		<?php  if (isset($_SESSION['isowner'])&&($_SESSION['isowner']==1)) ://賣家登入狀態?>
+		<a class="pointer" href="manage.php" style="font-family:SetoFont; background-color: #4d4d4d;">賣家廣場</a>
+		<?php endif ?>
+		
+		<?php  if (!isset($_SESSION['username'])) : //尚未登入狀態?>
+    	<a class="pointer" onClick="location.href='login.html';">Login</a>
+		<?php endif ?>
+			
+		<!-- 音樂 -->
+		<div class="mucon">
+			<audio id="music2" src="pickme.mp3" loop="loop"></audio>
+			<a href="javascript:playPause();"><img src="r1.png" width="20" height="20" style="background-color:white" id="music_btn2" border="0"></a>
+		</div>
+
+		
+	</div>
+	
+	<?php if (isset($_SESSION['success'])) :
+			unset($_SESSION['success']);
+        	endif ?>
+			
+	<!-- 左欄 -->
+	<div id="mainmenu" class="leftcolumn" style="cursor:url('poro.cur'),auto;">
+			
+			<!-- 商標 -->
+			<br>
+			<img src="pickme.png" class="pointer" height="80" width="250" onClick="location.href = 'pickme.php';">
+			<br><br>
+			
+			<!-- 商品 -->
+			<div id="item">
+			<a class="bar-item button pointer" onClick="location.href='newarrivals.php';">~NEW ARRIVALS~</a>
+			<a class="bar-item button pointer" onClick="location.href='#';">TOP 20</a>
+			<a class="bar-item button pointer" onClick="location.href='#';">SALE -up to 70% off-</a>
+			<b>Shop by Categories</b>
+			<a class="bar-item button pointer" onClick="location.href='#';">Tops</a>
+			<a class="bar-item button pointer" onClick="location.href='#';">Bottoms</a>
+			<a class="bar-item button pointer" onClick="location.href='#';">Dresses</a>
+			<a class="bar-item button pointer" onClick="location.href='#';">Jackets</a>
+			</div>
+			
+			<!-- 資訊 -->
+			<div id="info">
+			<b>About PickMe</b>
+			<a class="bar-item button pointer" onClick="location.href='whoarewe.php';">Who are we</a>
+			<a class="bar-item button pointer" onClick="location.href='#';">Contact</a>
+			<a class="bar-item button pointer" onClick="location.href='message.php';">Message</a>
+			</div>
+			
+	</div>
+	
+	<h1 style="margin-top: 100px; text-align:center; color:black;">賣家廣場</h1>
+	
+		<div class="table" style="margin-top:50px;">
 			<h1>新增商品</h1>
 			<!--建立<form>，要求使用者必須填寫ID、帳號、密碼、性別-->
 			<form action="" method="post" enctype="multipart/form-data"><!--將資訊傳給自己-->
@@ -31,8 +101,6 @@
 			</div>
 			</form>
 		</div>
-		
-		<a href='pickme.php'>回首頁</a>
 
 		<?php
 		if($_POST){
