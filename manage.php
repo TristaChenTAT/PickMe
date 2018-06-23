@@ -85,10 +85,10 @@
 			<font color="#025648"><b>尺寸大小:</b></font>  <input type="text" name="csize"required><br><br>
 			<font color="#025648"><b>定價:</b></font>  <input type="number" name="cprice"required><br><br>
 			<font color="#025648"><b>分類:</b></font>
-			<select id="category">
+			<select name="category">
 				<option selected value="top">上衣</option>
 				<option value="bottom">褲子</option>
-				<option value="skirt">裙子</option>
+				<option value="dress">裙子</option>
 				<option value="jacket">外套</option>
 			</select>
 			<br><br>
@@ -102,6 +102,7 @@
 			</form>
 		</div>
 
+
 		<?php
 		if($_POST){
 		$servername = "localhost";//連接伺服器
@@ -112,7 +113,8 @@
 		$inventory = $_POST['inventory'];
 		$csize = $_POST['csize'];
 		$cprice = $_POST['cprice'];
-		$category = isset($_POST['#category']) ? $_POST['#category'] : "top";
+		//$category = $_POST['#category'];
+		$category = isset($_POST['category']) ? $_POST['category'] : "top";
 		
 		$filename=$_FILES['image']['name'];
 		$tmpname=$_FILES['image']['tmp_name'];
